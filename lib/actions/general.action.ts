@@ -83,6 +83,12 @@ export async function getFeedbackByInterviewId(
 ): Promise<Feedback | null> {
   const { interviewId, userId } = params;
 
+  // Check if required parameters are defined
+  if (!interviewId || !userId) {
+    console.log("Missing required parameters:", { interviewId, userId });
+    return null;
+  }
+
   const querySnapshot = await db
     .collection("feedback")
     .where("interviewId", "==", interviewId)
@@ -107,6 +113,12 @@ export async function getLatestInterviews(
 export async function getInterviewsByUserId(
   userId: string
 ): Promise<Interview[] | null> {
+  // Check if userId is defined
+  if (!userId) {
+    console.log("Missing userId parameter");
+    return [];
+  }
+
   const interviews = await db
     .collection("interviews")
     .where("userId", "==", userId)
